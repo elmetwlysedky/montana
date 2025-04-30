@@ -82,7 +82,7 @@ return [
     'posts' => 'المنشورات',
     'post' => 'منشور',
     'active' => 'نشط',
-    'unactive' => 'غير نشط',
+    'inactive' => 'غير نشط',
     'title' => 'العنوان',
     'content' => 'المحتوى',
     'restaurants' => 'مطاعم',
@@ -111,6 +111,11 @@ return [
     'general' => 'العامة',
     'category' => 'صنف',
     'product' => 'منتج',
+    'choose_client' => 'اختر العميل',
+    'visa' => 'فيزا',
+    'cash' => 'كاش',
+    'delivery' => 'توصيل',
+    'subtotal' => 'الاجمالي الفرعي'
 
 
 

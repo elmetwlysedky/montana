@@ -80,7 +80,7 @@ return [
     'posts' => 'posts',
     'post' => 'post',
     'active' => 'active',
-    'unactive' => 'un active',
+    'inactive' => 'inactive',
     'title' => 'title',
     'content' => 'content',
     'restaurants'=>'restaurants',
@@ -110,6 +110,10 @@ return [
     'general' => 'general',
     'category' => 'category',
     'product' => 'product',
-
+    'choose_client' => 'choose client',
+    'visa' => 'visa',
+    'cash' => 'cash',
+    'delivery' => 'delivery',
+    'subtotal' => 'subtotal'
 
 ];

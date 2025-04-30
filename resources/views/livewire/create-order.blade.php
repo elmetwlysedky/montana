@@ -15,17 +15,25 @@
         <div class="form-group row">
             <div class="mb-4">
                 <div class="form-group">
-                    <div class="col-sm-2">
+
+                    <div class="col-sm-3">
                         <label>{{__('main.name')}}</label>
-                        <select wire:model="client" class="form-control">
-                            <option selected ></option>
+                        <select wire:model="selectedClient" class="form-control">
+                            <option selected>{{__('main.choose_client')}}</option>
                             @foreach($clients as $client)
                                 <option value="{{$client->id}}"> {{$client->name}}</option>
                             @endforeach
                         </select>
-                        @error('clients') <span class="text-danger">{{ $message }}</span> @enderror
+                        @error('selectedClient') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
 
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="col-form-label col-sm-auto"> {{__('main.address')}} :</label>
+                            <input type="text"  wire:model="address"  class="form-control">
+                            @error('address') <span class="text-danger">{{ $message }}</span> @enderror
+                        </div>
+                    </div>
 
                 </div>
             </div>
@@ -43,11 +51,48 @@
             <button type="button" wire:click="addProduct" class="btn btn-primary">{{__('main.add_product')}}</button>
         </div>
 
+
         <div class="form-group row">
+            <div class="col-md-5">
+                <div class="form-group">
+                    <label class="col-form-label col-sm-auto"> {{__('main.notes')}} :</label>
+                    <input type="text"  wire:model="notes"  class="form-control">
+                    @error('notes') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+            </div>
+
+
+
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label col-sm-auto"> {{__('main.discount')}} (%):</label>
                     <input type="number"  wire:model="discount"  class="form-control">
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="col-form-label col-sm-auto"> {{__('main.subtotal')}}</label>
+                    <input type="number"  wire:model="subTotal" readonly class="form-control">
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <div class="col-md-2">
+                <label>{{__('main.payment')}}</label>
+                <select wire:model="payment" class="form-control">
+                    <option value="visa">{{__('main.visa')}}</option>
+                    <option value="cash"> {{__('main.cash')}}</option>
+                </select>
+                @error('payment') <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <label class="col-form-label col-sm-auto"> {{__('main.delivery')}} :</label>
+                    <input type="number"  wire:model="delivery"  class="form-control">
+                    @error('delivery') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </div>
 
@@ -59,14 +104,12 @@
             </div>
 
 
-
-
-        <label class="col-form-label col-sm-auto"> {{__('main.save')}}</label>
-
-        <div class="col-form-label col-sm-auto">
-            <button type="submit"  class="btn btn-success">{{__('main.save')}}</button>
-        </div>
-
+            <div class="col-sm-1">
+                <div class="form-group">
+                    <label class="col-form-label col-sm-auto">{{__('main.save')}}</label>
+                    <button type="submit"  class="form-control btn btn-success ">{{__('main.save')}}</button>
+                </div>
+            </div>
 
         </div>
 

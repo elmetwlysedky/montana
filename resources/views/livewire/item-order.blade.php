@@ -9,7 +9,7 @@
             <div class="col-md-4">
                 <div class="form-group">
                     <label class="col-form-label col-sm-auto">{{__('main.products')}}<span class="text-danger">*</span></label>
-                    <select class="form-control" wire:model="items.{{$index}}.id">
+                    <select class="form-control" wire:model.live="items.{{$index}}.id">
                         <option>{{__('main.choose_products')}}</option>
                         @foreach ($products as $product)
                            <option value="{{$product->id}}">{{$product->name}}</option>
@@ -25,7 +25,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label col-sm-auto"> {{__('main.quantity')}}<span class="text-danger">*</span></label>
-                    <input type="number" class="form-control" wire:model="items.{{$index}}.quantity">
+                    <input type="number" class="form-control" wire:model.live="items.{{$index}}.quantity">
                     @error('items.'.$index.'.quantity')
                     <span class="text-danger">{{ $message }}</span>
                     @enderror
