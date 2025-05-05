@@ -18,6 +18,12 @@ class CreateForeignKeys extends Migration {
 						->onDelete('restrict')
 						->onUpdate('restrict');
 		});
+
+        Schema::table('orders', function(Blueprint $table) {
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('restrict')
+                ->onUpdate('restrict');
+        });
 		Schema::table('order_products', function(Blueprint $table) {
 			$table->foreign('product_id')->references('id')->on('products')
 						->onDelete('restrict')
@@ -38,6 +44,11 @@ class CreateForeignKeys extends Migration {
 		Schema::table('orders', function(Blueprint $table) {
 			$table->dropForeign('orders_client_id_foreign');
 		});
+
+        Schema::table('orders', function(Blueprint $table) {
+            $table->dropForeign('orders_user_id_foreign');
+        });
+
 		Schema::table('order_products', function(Blueprint $table) {
 			$table->dropForeign('order_products_product_id_foreign');
 		});

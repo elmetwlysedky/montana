@@ -80,6 +80,9 @@ class CreateOrder extends Component
         if ($propertyName === 'discount') {
             $this->updateItems();
         }
+        if ($propertyName === 'delivery') {
+            $this->updateItems();
+        }
     }
 
     public function saveInvoice()
@@ -93,6 +96,7 @@ class CreateOrder extends Component
                 'total_price' => $this->invoiceTotal,
                 'status' => 'Prepare',
                 'subtotal' => $this->subTotal,
+                'discount' => $this->discount,
                 'delivery_price' => $this->delivery,
                 'notes' => $this->notes,
                 'address' => $this->address,

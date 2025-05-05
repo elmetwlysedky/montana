@@ -55,6 +55,16 @@
                     <li><a href="{{route('product.index')}}"><i class="fa fa-circle-o"></i> {{__('main.products')}}</a></li>
                 </ul>
             </li>
+
+            <li class="active treeview">
+                <a href="#">
+                    <i class="fa fa-dashboard"></i> <span>{{__('main.orders')}}</span> <i class="fa fa-angle-left pull-left"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{route('order.create')}}"><i class="fa fa-circle-o"></i>  {{__('main.create')}}</a></li>
+                    <li><a href="{{route('order.index')}}"><i class="fa fa-circle-o"></i> {{__('main.orders')}}</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
     <!-- /.sidebar -->

@@ -34,6 +34,8 @@ Route::controller('App\Http\Controllers\Dashboard\ProductController')->group(fun
 Route::controller('App\Http\Controllers\Dashboard\OrderController')->group(function () {
     Route::get('orders', 'index')->name('order.index');
     Route::get('order/create', 'create')->name('order.create');
+    Route::get('order/show/{id}', 'show')->name('order.show');
+    Route::get('order/update/{id}', 'update')->name('order.update');
 
 
 });

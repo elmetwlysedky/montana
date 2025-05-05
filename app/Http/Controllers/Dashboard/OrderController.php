@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Kreait\Firebase\Factory;
 
@@ -27,11 +28,13 @@ class OrderController extends Controller
 
     public function index(){
 
-        $test = $this->database->getReference('data');
+        return view('Dashboard.Order.index',[
+            'orders' => Order::latest()->get()
+        ]);
 
-            return $test->getValue();
 
-
+//        $test = $this->database->getReference('data');
+//        return $test->getValue();
 //        $firebaseCredentials = config('firebase.credentials');
 //        $firebaseUrl=  config('firebase.database');
 //        $firebase = (new Factory)->withServiceAccount($firebaseCredentials)
@@ -48,5 +51,22 @@ class OrderController extends Controller
     public function create()
     {
         return view('Dashboard.Order.create');
+    }
+
+    public function show($id)
+    {
+        return view('Dashboard.Order.show',[
+            'order' => Order::findOrFail($id),
+
+        ]);
+    }
+    public function update($id)
+    {
+        $order = Order::findOrfail($id);
+        if($order->status == 'Prepare'){
+            $order->update(['status'=>'delivery']);
+        }
+        return redirect()->back();
+
     }
 }

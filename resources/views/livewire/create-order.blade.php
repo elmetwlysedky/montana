@@ -66,7 +66,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label col-sm-auto"> {{__('main.discount')}} (%):</label>
-                    <input type="number"  wire:model="discount"  class="form-control">
+                    <input type="number"  wire:model.live="discount"  class="form-control">
                 </div>
             </div>
 
@@ -91,7 +91,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label col-sm-auto"> {{__('main.delivery')}} :</label>
-                    <input type="number"  wire:model="delivery"  class="form-control">
+                    <input type="number"  wire:model.live="delivery"  class="form-control">
                     @error('delivery') <span class="text-danger">{{ $message }}</span> @enderror
                 </div>
             </div>
