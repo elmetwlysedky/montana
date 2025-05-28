@@ -82,6 +82,7 @@
             <div class="col-md-2">
                 <label>{{__('main.payment')}}</label>
                 <select wire:model="payment" class="form-control">
+                <option selected>{{__('main.choose')}}</option>
                     <option value="visa">{{__('main.visa')}}</option>
                     <option value="cash"> {{__('main.cash')}}</option>
                 </select>
@@ -99,7 +100,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label class="col-form-label col-sm-auto"> {{__('main.total')}}</label>
-                    <input type="number"  wire:model="invoiceTotal" readonly class="form-control">
+                    <input type="number" value="{{ $invoiceTotal }}" readonly class="form-control">
                 </div>
             </div>
 

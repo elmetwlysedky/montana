@@ -6,6 +6,8 @@ use App\Models\Client;
 use App\Models\Product;
 use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
+use App\Services\OrderService;
+use App\Services\OrderCalculatorService;
 use Livewire\Component;
 
 class CreateOrder extends Component
@@ -19,7 +21,7 @@ class CreateOrder extends Component
     public $items = [];
     public $notes;
     public $payment;
-    public $delivery;
+    public $delivery = 0;
     public $address;
     public $products;
 
@@ -35,10 +37,21 @@ class CreateOrder extends Component
 
     ];
 
+        protected OrderService $orderService;
+        protected OrderCalculatorService $calculatorService;
+
+    public function boot(
+        OrderService  $orderService,
+        OrderCalculatorService $calculatorService
+    ) {
+       $this->orderService = $orderService;
+       $this->calculatorService = $calculatorService;
+    }
+
     public function mount()
     {
         $num = Order::latest()->first();
-        $this->invoice_num = $num->id +1;
+        $this->invoice_num = $num->id + 1;
 
         $this->items = [['id' => null, 'quantity' => 1, 'productPrice' => 0, 'totalPrice' => 0]];
         $this->products = Product::get();
@@ -46,41 +59,38 @@ class CreateOrder extends Component
 
     }
 
-    public function render(){
-
-
+    public function render()
+    {
         return view('livewire.create-order');
     }
 
-    public function updateItems(){
-        $this->subTotal = 0;
+
+    public function updateItems()
+    {
+        // Update product prices in items array
         foreach ($this->items as $index => $item) {
             if (!empty($item['id'])) {
                 $product = Product::find($item['id']);
                 if ($product) {
                     $this->items[$index]['productPrice'] = $product->price_of_sale;
                     $this->items[$index]['totalPrice'] = $product->price_of_sale * $item['quantity'];
-                    $this->subTotal += $this->items[$index]['totalPrice'];
+                    // Add product_id for calculator service
+                    $this->items[$index]['product_id'] = $item['id'];
                 }
             }
         }
-        if ($this->discount > 0) {
-            $this->subTotal -= ($this->subTotal * ($this->discount / 100));
-        }
-        // Format invoice total to 2 decimal places
-        $this->subTotal = number_format($this->subTotal, 2, '.', '');
-        $this->invoiceTotal = $this->subTotal + $this->delivery;
+
+        // Calculate totals using the calculator service
+        $this->subTotal = $this->calculatorService->calculateSubtotal($this->items);
+        $this->subTotal = $this->calculatorService->applyDiscount($this->subTotal, $this->discount);
+        $this->invoiceTotal = $this->calculatorService->calculateTotal($this->subTotal, $this->delivery);
     }
 
     public function updated($propertyName)
     {
-        if (str_contains($propertyName, 'items.')) {
-            $this->updateItems();
-        }
-        if ($propertyName === 'discount') {
-            $this->updateItems();
-        }
-        if ($propertyName === 'delivery') {
+        if (str_contains($propertyName, 'items.') ||
+            $propertyName === 'discount' ||
+            $propertyName === 'delivery') {
             $this->updateItems();
         }
     }
@@ -89,31 +99,26 @@ class CreateOrder extends Component
     {
         $this->validate();
 
+        // Validate stock using OrderService
+        if ($error = $this->orderService->validateStock($this->items)) {
+            session()->flash('error', $error);
+            return;
+        }
+
         try {
-            // Create the order
-            $order = Order::create([
-                'client_id' => $this->selectedClient,
-                'total_price' => $this->invoiceTotal,
-                'status' => 'Prepare',
-                'subtotal' => $this->subTotal,
-                'discount' => $this->discount,
-                'delivery_price' => $this->delivery,
-                'notes' => $this->notes,
-                'address' => $this->address,
-                'payment' => $this->payment,
+            $orderData = new \App\DTOs\OrderData(
+                clientId: $this->selectedClient,
+                totalPrice: $this->invoiceTotal,
+                subtotal: $this->subTotal,
+                discount: $this->discount,
+                deliveryPrice: $this->delivery,
+                notes: $this->notes,
+                address: $this->address,
+                payment: $this->payment,
+                items: $this->items
+            );
 
-
-            ]);
-
-            // Save order products
-            foreach ($this->items as $item) {
-                if (!empty($item['id'])) {
-                    $order->products()->attach($item['id'], [
-                        'price' => $item['productPrice'],
-                        'quantity' => $item['quantity']
-                    ]);
-                }
-            }
+            $this->orderService->createOrder($orderData);
 
             session()->flash('success', 'Order created successfully!');
             $this->formReset();
@@ -121,6 +126,9 @@ class CreateOrder extends Component
             session()->flash('error', 'Error creating order: ' . $e->getMessage());
         }
     }
+
+
+
 
     public function addProduct()
     {

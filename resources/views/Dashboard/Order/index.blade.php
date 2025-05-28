@@ -69,7 +69,7 @@
                                 <li class="divider"></li>
                                 @endif
                                 <li>
-                                    <form action="{{route('product.delete',$item->id)}}" method="POST"  >
+                                    <form action="{{route('order.delete',$item->id)}}" method="POST"  >
                                         @csrf
                                         @method('DELETE')
                                         <button class="dropdown-item-btn btn-danger " type="submit"><i class="icon-bin"> </i>{{__('main.delete')}}</button>

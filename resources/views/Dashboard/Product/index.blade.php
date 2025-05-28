@@ -1,7 +1,7 @@
 @extends('Dashboard.Layouts1.master')
 
 @section('title')
-    {{__('main.categories')}}
+    {{__('main.products')}}
 @endsection
 
 @section('content')

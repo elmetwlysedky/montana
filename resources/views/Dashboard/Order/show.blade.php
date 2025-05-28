@@ -40,11 +40,8 @@
 
 
                 @foreach ($order -> products as $item)
-
-
                     <div>
                         <div class="form-group row">
-
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label class="col-form-label col-sm-auto">{{__('main.products')}}<span class="text-danger">*</span></label>
@@ -52,28 +49,24 @@
                                 </div>
                             </div>
 
-
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-form-label col-sm-auto"> {{__('main.quantity')}}<span class="text-danger">*</span></label>
-                                    <input type="number" class="form-control" value="{{$item->quantity}}" readonly>
-
+                                    <input type="number" class="form-control" value="{{$item->pivot->quantity}}" readonly>
                                 </div>
                             </div>
-
 
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-form-label col-sm-auto"> {{__('main.price')}}<span class="text-danger"></span></label>
-                                    <input type="number"  value="{{$item->price}}"  class="form-control" readonly >
+                                    <input type="number"  value="{{$item->pivot->price}}"  class="form-control" readonly >
                                 </div>
                             </div>
-
 
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label class="col-form-label col-sm-auto"> {{__('main.total')}}<span class="text-danger"></span></label>
-                                    <input type="number" value="{{$item->price * $item->quantity}}" class="form-control" readonly >
+                                    <input type="number" value="{{$item->pivot->price * $item->pivot->quantity}}" class="form-control" readonly >
                                 </div>
                             </div>
                         </div>
@@ -130,22 +123,6 @@
 
                 </div>
 
-
-
-            @if(Session::has('success'))
-
-                <div class="alert alert-success border-0 alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-                    <span class="font-weight-semibold">{{session('success')}}</span>
-                </div>
-            @endif
-            @if(Session::has('error'))
-
-                <div class="alert alert-warning border-0 alert-dismissible">
-                    <button type="button" class="close" data-dismiss="alert"><span>&times;</span></button>
-                    <span class="font-weight-semibold">{{session('error')}}</span>
-                </div>
-            @endif
 
         </div>
 

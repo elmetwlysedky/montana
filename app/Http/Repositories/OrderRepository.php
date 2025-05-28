@@ -4,33 +4,30 @@ namespace App\Http\Repositories;
 
 use App\Http\Interfaces\RepositoryInterface;
 use App\Models\Category;
-use App\Models\Product;
+use App\Models\Order;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryRepository implements RepositoryInterface
+class OrderRepository implements RepositoryInterface
 {
 
     public function all()
     {
-        return Category::all();
+
     }
 
     public function show($id): ?Model
     {
-return Category::with('products')->findOrFail($id);
-
-
-
+        return order::with('products')->findOrFail($id);
     }
 
     public function store(array $data): ?Model
     {
-        return Category::create($data);
+        return Order::create($data);
     }
 
     public function update(array $data, $id): ?Model
     {
-        $category =Category::findOrFail($id);
+        $category =Order::findOrFail($id);
         $category->update($data);
         return $category;
     }

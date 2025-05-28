@@ -26,13 +26,13 @@ class CreateForeignKeys extends Migration {
         });
 		Schema::table('order_products', function(Blueprint $table) {
 			$table->foreign('product_id')->references('id')->on('products')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 		Schema::table('order_products', function(Blueprint $table) {
 			$table->foreign('order_id')->references('id')->on('orders')
-						->onDelete('restrict')
-						->onUpdate('restrict');
+						->onDelete('cascade')
+						->onUpdate('cascade');
 		});
 	}
 

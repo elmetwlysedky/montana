@@ -16,3 +16,7 @@ Route::controller('App\Http\Controllers\Api\CategoryController')->group(function
 Route::controller('App\Http\Controllers\Api\ProductController')->group(function () {
     Route::get('product/{id}', 'show');
 });
+
+Route::controller('App\Http\Controllers\Api\OrderController')->group(function () {
+    Route::post('order/create', 'store');
+});

@@ -66,6 +66,17 @@ class OrderController extends Controller
         if($order->status == 'Prepare'){
             $order->update(['status'=>'delivery']);
         }
+        session()->flash('success',__('main.deliver_success'));
+        return redirect()->back();
+
+    }
+    public function destroy($id)
+    {
+        $order = Order::findOrFail($id);
+        $order->products()->detach();
+        $order->delete();
+
+        session()->flash('success',__('main.deleted_success'));
         return redirect()->back();
 
     }

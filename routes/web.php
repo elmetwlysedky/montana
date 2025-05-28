@@ -36,6 +36,7 @@ Route::controller('App\Http\Controllers\Dashboard\OrderController')->group(funct
     Route::get('order/create', 'create')->name('order.create');
     Route::get('order/show/{id}', 'show')->name('order.show');
     Route::get('order/update/{id}', 'update')->name('order.update');
+    Route::delete('order/delete/{id}', 'destroy')->name('order.delete');
 
 
 });
